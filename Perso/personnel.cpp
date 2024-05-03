@@ -1,6 +1,7 @@
 #include "personnel.h"
-#include "connection.h"
-#include "personnellist.h"
+#include "connexion.h"
+#include "personnel.h"
+#include "mainwindow.h"
 
 
 
