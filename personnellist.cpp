@@ -1,8 +1,6 @@
 #include "ui_personnellist.h"
 #include "personnellist.h"
 #include "connection.h"
-#include "arduino.h"
-#include "arduinotemp.h"
 #include "personnel.h"
 #include "ImageDelegate.h"
 #include <QDebug>
@@ -817,16 +815,4 @@ void personnellist::clearChartmember()
 void personnellist::on_stat_clicked()
 {
     ui->stackedWidget->setCurrentIndex(4);
-}
-
-void personnellist::on_arduino_clicked()
-{
-    // Create an instance of arduinotemp dialog
-            arduinotemp *arduinoTempDialog = new arduinotemp(this);
-
-            // Hide the current MainWindow
-            this->hide();
-
-            // Show the arduinotemp dialog
-            arduinoTempDialog->show();
 }

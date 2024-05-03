@@ -3,7 +3,6 @@ QT += printsupport
 QT += charts
 QT += network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-QT       += core gui serialport
 
 CONFIG += c++11
 
@@ -20,8 +19,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     ImageDelegate.cpp \
-    arduino.cpp \
-    arduinotemp.cpp \
     connection.cpp \
     main.cpp \
     personnel.cpp \
@@ -30,15 +27,12 @@ SOURCES += \
 
 HEADERS += \
     ImageDelegate.h \
-    arduino.h \
-    arduinotemp.h \
     connection.h \
     personnel.h \
     personnellist.h \
     qrcode.h
 
 FORMS += \
-    arduinotemp.ui \
     personnellist.ui
 
 # Default rules for deployment.

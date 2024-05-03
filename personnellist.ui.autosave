@@ -1122,38 +1122,6 @@ QPushButton:pressed {
        <string>STAT</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="arduino">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>520</y>
-        <width>141</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-    font-size: 12pt; /* Larger font size */
-    border: 2px solid #000000; /* Black border */
-    border-radius: 15px; /* Rounded corners */
-    padding: 12px 24px; /* Increased padding for better spacing */
-    color: #ffffff; /* White text */
-    background-color: #f4d69a; /* Gold background */
-}
-
-QPushButton:hover {
-    background-color: #e0b75e; /* Lighter gold on hover */
-}
-
-QPushButton:pressed {
-    background-color: #d0a04c; /* Slightly darker gold when pressed */
-}
-</string>
-      </property>
-      <property name="text">
-       <string>arduino</string>
-      </property>
-     </widget>
      <zorder>pushButton_13</zorder>
      <zorder>label_13</zorder>
      <zorder>printButton</zorder>
@@ -1173,7 +1141,6 @@ QPushButton:pressed {
      <zorder>generateQRButton</zorder>
      <zorder>qrcode</zorder>
      <zorder>stat</zorder>
-     <zorder>arduino</zorder>
     </widget>
     <widget class="QWidget" name="page_4">
      <widget class="QLabel" name="label_42">
