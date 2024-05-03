@@ -9,9 +9,9 @@ INPUT(
 ./release\passwordresetdialog.o
 ./release\personnel.o
 ./release\qrcode.o
+./release\regle.o
 ./release\sms.o
 ./release\stats_page.o
-./release\moc_SmtpClient.o
 ./release\moc_ImageDelegate.o
 ./release\moc_passwordresetdialog.o
 ./release\moc_sms.o

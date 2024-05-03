@@ -9,9 +9,9 @@ INPUT(
 ./debug\passwordresetdialog.o
 ./debug\personnel.o
 ./debug\qrcode.o
+./debug\regle.o
 ./debug\sms.o
 ./debug\stats_page.o
-./debug\moc_SmtpClient.o
 ./debug\moc_ImageDelegate.o
 ./debug\moc_passwordresetdialog.o
 ./debug\moc_sms.o

@@ -623,14 +623,14 @@ void MainWindow::clicked_rech()
 }
 
 #include <QtGlobal> // Include for qrand()
-#include "smtpclient.h"
+//#include "smtpclient.h"
 #include "mimepart.h"
 #include "mimeattachment.h"
 #include "emailaddress.h"
 #include "mimetext.h"
 #include <QDateTime>
 #include <QApplication>
-void MainWindow::on_mailing_clicked()
+/*void MainWindow::on_mailing_clicked()
 {
     // Get recipient's email address
     QString recipientEmail = QInputDialog::getText(this, "Recipient Email", "Enter the recipient's email address:");
@@ -672,7 +672,7 @@ void MainWindow::on_mailing_clicked()
     }
 
     smtp.quit();
-}
+}*/
 void MainWindow::on_historyButton_clicked()
 {
 

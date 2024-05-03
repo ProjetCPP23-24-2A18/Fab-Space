@@ -4,7 +4,7 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QtGlobal> // Include for qrand()
-#include "smtpclient.h"
+//#include "smtpclient.h"
 #include "mimepart.h"
 #include "mimeattachment.h"
 #include "emailaddress.h"

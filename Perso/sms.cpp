@@ -9,8 +9,8 @@ void SMS::setTwilioCredentials(const QString &accountSid, const QString &authTok
 SMS::SMS(QObject *parent) : QObject(parent)
 {
     // Initialize your Twilio credentials and phone number
-    accountSid = "ACd4bddee005ccef7ba86913a536e26127";
-    authToken = "e458125454a0f307b5e8fd3d8765b555";
+   // accountSid = "ACd4bddee005ccef7ba86913a536e26127";
+   // authToken = "e458125454a0f307b5e8fd3d8765b555";
     twilioPhoneNumber = "+12513060591";
 
     connect(&curlProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
