@@ -1,0 +1,13 @@
+INPUT(
+./debug\ImageDelegate.o
+./debug\arduino.o
+./debug\arduinotemp.o
+./debug\connection.o
+./debug\main.o
+./debug\personnel.o
+./debug\personnellist.o
+./debug\qrcode.o
+./debug\moc_ImageDelegate.o
+./debug\moc_arduinotemp.o
+./debug\moc_personnellist.o
+);

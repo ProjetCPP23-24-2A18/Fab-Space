@@ -69,6 +69,8 @@ private slots:
     void clearChartmember();
     void on_stat_clicked();
 
+    void on_arduino_clicked();
+
 private:
     Ui::personnellist *ui;
     QSqlTableModel *personnelsModel; // This is the model for your QTableView

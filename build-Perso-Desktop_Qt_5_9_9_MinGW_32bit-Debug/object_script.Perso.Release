@@ -1,0 +1,13 @@
+INPUT(
+./release\ImageDelegate.o
+./release\arduino.o
+./release\arduinotemp.o
+./release\connection.o
+./release\main.o
+./release\personnel.o
+./release\personnellist.o
+./release\qrcode.o
+./release\moc_ImageDelegate.o
+./release\moc_arduinotemp.o
+./release\moc_personnellist.o
+);
