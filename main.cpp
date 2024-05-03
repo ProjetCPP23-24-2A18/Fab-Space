@@ -1,26 +1,19 @@
-#include "mainwindow.h"
-#include "connexion.h"
-#include <QMessageBox>
+#include "personnellist.h"
 #include <QApplication>
 #include <QMessageBox>
-#include <QtGlobal> // Include for qrand()
-//#include "smtpclient.h"
-#include "mimepart.h"
-#include "mimeattachment.h"
-#include "emailaddress.h"
-#include "mimetext.h"
-#include <QDateTime>
-#include <QApplication>
+#include "connection.h"
+#include "personnel.h"
+
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    connexion c;
-    bool test=c.creatconnect();
-    MainWindow w;
+    personnellist w;
+    Connection c;
+    bool test=c.createconnect();
     if(test)
     {w.show();
-        QMessageBox::critical(nullptr, QObject::tr("database is open"),
+        QMessageBox::information(nullptr, QObject::tr("database is open"),
                     QObject::tr("connection successful.\n"
                                 "Click Cancel to exit."), QMessageBox::Cancel);
 
@@ -29,10 +22,5 @@ int main(int argc, char *argv[])
         QMessageBox::critical(nullptr, QObject::tr("database is not open"),
                     QObject::tr("connection failed.\n"
                                 "Click Cancel to exit."), QMessageBox::Cancel);
-
-
-
-
     return a.exec();
 }
-
