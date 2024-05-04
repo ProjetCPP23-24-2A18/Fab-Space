@@ -196,6 +196,8 @@ void on_exitBtn_3_clicked();
 
 void on_gestio_contrat_clicked();
 
+void on_arduino_clicked();
+
     private:
         Ui::MainWindow *ui;
         Client Ctemp;

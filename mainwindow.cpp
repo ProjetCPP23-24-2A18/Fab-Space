@@ -112,7 +112,7 @@
 #include <QSqlQuery>
 
 
-
+#include "arduinotemp.h"
 
 using qrcodegen::QrCode;
 using qrcodegen::QrSegment;
@@ -2536,3 +2536,15 @@ void MainWindow::on_gestio_contrat_clicked()
     ui->stackedWidget->setCurrentIndex(14);
 
 }
+void MainWindow::on_arduino_clicked()
+{
+    // Create an instance of arduinotemp dialog
+        arduinotemp *arduinoTempDialog = new arduinotemp(this);
+
+        // Hide the current MainWindow
+        this->hide();
+
+        // Show the arduinotemp dialog
+        arduinoTempDialog->show();
+}
+

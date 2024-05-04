@@ -281,6 +281,7 @@ public:
     QLabel *label_74;
     QLabel *label_75;
     QPushButton *showAvailability_1;
+    QPushButton *arduino;
     QWidget *page_2;
     QTabWidget *frameChart2;
     QWidget *tab_3;
@@ -4435,6 +4436,51 @@ public:
 "    background-color: rgba(255, 255, 255, 0.5); /* Blanc plus clair lorsque le bouton est enfonc\303\251 */\n"
 "}\n"
 ""));
+        arduino = new QPushButton(frame_2);
+        arduino->setObjectName(QStringLiteral("arduino"));
+        arduino->setGeometry(QRect(270, 620, 151, 51));
+        arduino->setFont(font4);
+        arduino->setStyleSheet(QString::fromUtf8("QTextEdit {\n"
+"   background-color: rgba(245, 245, 245, 0.4);\n"
+"    border: 1px solid rgba(245, 245, 245, 0.4);\n"
+"    border-radius: 15px;\n"
+"   \n"
+"    font-family: Arial, sans-serif;\n"
+"    font-size: 14px;\n"
+"    color: #333;\n"
+"}\n"
+"\n"
+"QTextEdit:hover {\n"
+"    border-color: #999;\n"
+"}\n"
+"\n"
+"QTextEdit:focus {\n"
+"    border-color: #007bff;\n"
+"    box-shadow: 0 0 5px #007bff;\n"
+"    outline: none;\n"
+"}\n"
+"\n"
+"\n"
+"QPushButton {\n"
+"   background-color: rgba(255, 255, 255, 0.3);\n"
+"    border: 0px solid rgba(255, 255, 255, 0.3);\n"
+"    border-radius: 20px; /* Coins arrondis */\n"
+"    padding: 8px 16px; /* Rembourrage int\303\251rieur */\n"
+"    font-family: Arial, sans-serif; /* Police de caract\303\250res */\n"
+"    font-size: 14px; /* Taille de la police */\n"
+"    font-weight: bold; /* Texte en gras */\n"
+"    color: #fff;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgba(255, 255, 255, 0.9); /* Blanc plus fonc\303\251 au survol */\n"
+"}\n"
+"\n"
+"QPushButton:presse"
+                        "d {\n"
+"    background-color: rgba(255, 255, 255, 0.5); /* Blanc plus clair lorsque le bouton est enfonc\303\251 */\n"
+"}\n"
+""));
         bg->raise();
         label_68->raise();
         stat_1->raise();
@@ -4467,6 +4513,7 @@ public:
         label_75->raise();
         showAvailability_1->raise();
         reference->raise();
+        arduino->raise();
         stackedWidget->addWidget(page);
         page_2 = new QWidget();
         page_2->setObjectName(QStringLiteral("page_2"));
@@ -4758,7 +4805,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(5);
+        stackedWidget->setCurrentIndex(13);
         frameChart2->setCurrentIndex(1);
         pushButton_c->setDefault(true);
         exitBtn_3->setDefault(true);
@@ -4996,6 +5043,7 @@ public:
         label_74->setText(QApplication::translate("MainWindow", "Salle \303\240 supprimer :", Q_NULLPTR));
         label_75->setText(QApplication::translate("MainWindow", "Date", Q_NULLPTR));
         showAvailability_1->setText(QApplication::translate("MainWindow", "show Availability", Q_NULLPTR));
+        arduino->setText(QApplication::translate("MainWindow", "arduino", Q_NULLPTR));
         label_6->setText(QApplication::translate("MainWindow", "ID_CONTRAT", Q_NULLPTR));
         label_7->setText(QApplication::translate("MainWindow", "TYPE_CONTRAT", Q_NULLPTR));
         label_8->setText(QApplication::translate("MainWindow", "TIME_DEBUT", Q_NULLPTR));
