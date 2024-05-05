@@ -1,5 +1,7 @@
 INPUT(
 ./debug\ImageDelegate.o
+./debug\arduino.o
+./debug\arduinotemp.o
 ./debug\client.o
 ./debug\connexion.o
 ./debug\equipement.o
@@ -12,7 +14,10 @@ INPUT(
 ./debug\regle.o
 ./debug\sms.o
 ./debug\stats_page.o
+./debug\moc_SmtpClient.o
 ./debug\moc_ImageDelegate.o
+./debug\moc_arduino.o
+./debug\moc_arduinotemp.o
 ./debug\moc_passwordresetdialog.o
 ./debug\moc_sms.o
 ./debug\moc_stats_page.o

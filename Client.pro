@@ -1,5 +1,5 @@
 QT+= sql
-
+QT += serialport
 QT       += core gui sql
 QT       +=charts
 QT       +=widgets printsupport
@@ -29,6 +29,8 @@ HEADERS += \
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS \
     ImageDelegate.h \
+    arduino.h \
+    arduinotemp.h \
     equipement.h \
     espace.h \
     passwordresetdialog.h \
@@ -45,6 +47,8 @@ DEFINES += QT_DEPRECATED_WARNINGS \
 
 SOURCES += \
     ImageDelegate.cpp \
+    arduino.cpp \
+    arduinotemp.cpp \
     client.cpp \
     connexion.cpp \
     equipement.cpp \
@@ -64,6 +68,7 @@ HEADERS += \
     mainwindow.h
 
 FORMS += \
+    arduinotemp.ui \
     mainwindow.ui \
     passwordresetdialog.ui \
     stats_page.ui

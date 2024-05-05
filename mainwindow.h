@@ -24,6 +24,7 @@
 #include <QSqlQuery>
 #include "sms.h"
 #include "regle.h"
+#include "arduino.h"
 
 
     QT_BEGIN_NAMESPACE
@@ -38,6 +39,9 @@
         MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
         void setupChart();
+        QString parseCardID(const QString &dataFromArduino);
+
+
 
 
 
@@ -197,8 +201,23 @@ void on_exitBtn_3_clicked();
 void on_gestio_contrat_clicked();
 
 void on_arduino_clicked();
+/*arduino ref
+ */
+void updateStatusLabelColor(bool cardExists, const QString& cardID);
+void on_refreche_2_clicked();
+//void on_pushButton_2_clicked();
+void on_refreche_3_clicked();
+void activateBuzzer(int numTimes);
+void on_addMemberButton_clicked();
+/*
+
+*/  void onCardScanned(const QString &dataFromArduino) ;
+void on_addMemberButton_2_clicked();
+
+void on_pushButton_9_clicked();
 
     private:
+
         Ui::MainWindow *ui;
         Client Ctemp;
         QSqlTableModel *clientModel;
@@ -224,6 +243,12 @@ void on_arduino_clicked();
         //contrat
         REGLE etmp;
         QStringList files;
+        //arduino ref
+
+        QSqlTableModel *cardLogsModel;
+        Arduino *arduino;
+        bool checkIfCardExists(const QString& cardID);
+        QTimer *buzzerTimer;
 
 
 

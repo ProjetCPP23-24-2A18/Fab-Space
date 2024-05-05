@@ -1,5 +1,7 @@
 INPUT(
 ./release\ImageDelegate.o
+./release\arduino.o
+./release\arduinotemp.o
 ./release\client.o
 ./release\connexion.o
 ./release\equipement.o
@@ -12,7 +14,10 @@ INPUT(
 ./release\regle.o
 ./release\sms.o
 ./release\stats_page.o
+./release\moc_SmtpClient.o
 ./release\moc_ImageDelegate.o
+./release\moc_arduino.o
+./release\moc_arduinotemp.o
 ./release\moc_passwordresetdialog.o
 ./release\moc_sms.o
 ./release\moc_stats_page.o

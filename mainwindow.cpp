@@ -113,6 +113,8 @@
 
 
 #include "arduinotemp.h"
+#include "arduino.h"
+
 
 using qrcodegen::QrCode;
 using qrcodegen::QrSegment;
@@ -1020,10 +1022,6 @@ void MainWindow::on_pushButton_14_p_clicked()
 
 
 
-void MainWindow::on_pushButton_10_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(1);
-}
 
 
 
@@ -1034,17 +1032,24 @@ void MainWindow::on_AjoutButton_clicked()
 
 void MainWindow::on_searchButton_clicked()
 {
-    personnelsModel->setTable("PERSONNEL");
+    QString searchQuery = ui->searchLineEdit_2->text().trimmed();
+    if (!searchQuery.isEmpty())
+    {
+        QString selectQuery = "ID = '" + searchQuery + "'";
+        personnelsModel->setFilter(selectQuery);
         personnelsModel->select();
-
-        QString searchQuery = ui->searchLineEdit_p->text().toLower(); // Convert search query to lowercase
-
-           QString selectQuery = "LOWER(NAME) LIKE '%" + searchQuery + "%' OR LOWER(LAST_NAME) LIKE '%" + searchQuery + "%' OR ID LIKE '%" + searchQuery + "%'";
-           personnelsModel->setFilter(selectQuery);
-        personnelsModel->select();
-
-        ui->searchLineEdit_p->clear(); // Clear search line
-        ui->tableView_p->resizeColumnsToContents();
+        if (personnelsModel->rowCount() == 0)
+        {
+            QMessageBox::information(this, "Not Found", "No personnel found with the provided ID.");
+            selectedPersonnelId.clear();
+        } else {
+            selectedPersonnelId = searchQuery;
+            ui->labelMessage->setText("Personnel with ID " + searchQuery + " found. Ready to add card.");
+               }
+     } else {
+             QMessageBox::warning(this, "Input Error", "Please enter an ID to search.");
+             selectedPersonnelId.clear();
+            }
 }
 
 
@@ -2548,3 +2553,242 @@ void MainWindow::on_arduino_clicked()
         arduinoTempDialog->show();
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*////////////////////////////arduino ref*/
+//void MainWindow::on_tableView2_selectionChanged(const QItemSelection &selected, const QItemSelection &/*deselected*/)
+/*{
+    const QModelIndexList indexes = selected.indexes();
+    if (indexes.size() > 0)
+    {
+        int personnelId = indexes.at(0).data().toInt();
+        displaySelectedMemberImage(personnelId);
+    }
+}*/
+
+
+
+void MainWindow::onCardScanned(const QString &dataFromArduino)
+{
+    QString cardID = parseCardID(dataFromArduino);
+    if (cardID.isEmpty())
+    {
+        return;
+    }
+    QSqlDatabase::database().transaction();
+    QSqlQuery checkCardQuery;
+    checkCardQuery.prepare("SELECT ID FROM personnel WHERE CARD_ID = :cardID AND ID !=:personnelId ");
+    checkCardQuery.bindValue(":cardID", cardID);
+    checkCardQuery.bindValue(":personnelId", selectedPersonnelId);
+    if (!checkCardQuery.exec())
+    {
+        QSqlDatabase::database().rollback();
+        QMessageBox::critical(this, "Database Error", "Could not query the database: " + checkCardQuery.lastError().text());
+        return;
+    }
+
+
+    if (checkCardQuery.next())
+    {
+        QSqlDatabase::database().rollback();
+        QMessageBox::warning(this, "Card Error", "This card is already assigned to another personnel.");
+        return;
+    }
+    QSqlQuery updateMemberQuery;
+    updateMemberQuery.prepare("UPDATE personnel SET CARD_ID = :cardID WHERE ID = :personnelId");
+    updateMemberQuery.bindValue(":cardID", cardID);
+    updateMemberQuery.bindValue(":personnelId", selectedPersonnelId);
+    if (!updateMemberQuery.exec())
+    {
+        QSqlDatabase::database().rollback();
+        QMessageBox::critical(this, "Database Error", "Could not save the card to the database: " + updateMemberQuery.lastError().text());
+        return;
+    }
+
+
+    QSqlQuery checkQuery;
+    checkQuery.prepare("SELECT COUNT(*) FROM CARD_LOGS WHERE CARD_ID = :cardID");
+    checkQuery.bindValue(":cardID", cardID);
+    if (!checkQuery.exec())
+    {
+        QSqlDatabase::database().rollback();
+        QMessageBox::critical(this, "Database Error", "Error checking for existing card logs: " + checkQuery.lastError().text());
+        return;
+    }
+    int count = 0;
+    if (checkQuery.next())
+    {
+        count = checkQuery.value(0).toInt();
+    }
+    QSqlQuery query;
+    if (count == 0)
+    {
+        query.prepare("INSERT INTO CARD_LOGS (CARD_ID, LAST_ACCESS, ACCESS_TIME, ACCESS_STATUS) " "VALUES (:cardID, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Access granted.')");
+    } else {
+               query.prepare("UPDATE CARD_LOGS SET LAST_ACCESS = CURRENT_TIMESTAMP, " "ACCESS_TIME = CURRENT_TIMESTAMP, ACCESS_STATUS = 'Access granted.' " "WHERE CARD_ID = :cardID");
+           }
+    query.bindValue(":cardID", cardID);
+     if (!query.exec())
+     {
+           QSqlDatabase::database().rollback();
+           QMessageBox::critical(this, "Database Error", "Could not update the CARD_LOGS table: " + query.lastError().text());
+           return;
+     }
+     QSqlDatabase::database().commit();
+     QMessageBox::information(this, "Success", "Access logged for card ID: " + cardID);
+     bool cardExists = checkIfCardExists(cardID);
+     updateStatusLabelColor(cardExists,cardID);
+ }
+QString MainWindow::parseCardID(const QString &dataFromArduino)
+{
+    QRegularExpression regex("Card ID: (\\w+)");
+    QRegularExpressionMatch match = regex.match(dataFromArduino);
+    if (match.hasMatch())
+    {
+        return match.captured(1);
+    }
+    return QString();
+}
+
+
+
+void MainWindow::on_refreche_2_clicked()
+{
+    cardLogsModel = new QSqlTableModel(this);
+    cardLogsModel->setTable("CARD_LOGS");
+    cardLogsModel->select();
+    ui->tableView_3->setModel(cardLogsModel);
+    if (cardLogsModel->rowCount() == 0)
+    {
+        qDebug() << "The model is empty or not properly set up.";
+        qDebug() << "Error:" << cardLogsModel->lastError().text();
+    }
+    cardLogsModel->select();
+    ui->stackedWidget->setCurrentIndex(15);
+}
+
+void MainWindow::updateStatusLabelColor(bool cardExists, const QString& cardID)
+{
+    if (cardExists)
+    {
+        QByteArray data = "1";
+        arduino->write_to_arduino(data);
+        ui->accessStatusLabel2VERT->setStyleSheet("QLabel { background-color: green; }");
+        ui->accessStatusLabelRED->setStyleSheet("");
+
+        // Fetch personnel information from the database
+        QSqlQuery query;
+        query.prepare("SELECT ID, NAME, FUNCTION FROM personnel WHERE CARD_ID = :cardID");
+        query.bindValue(":cardID", cardID);
+        if (query.exec() && query.next())
+        {
+            int personnelId = query.value(0).toInt();
+            QString name = query.value(1).toString();
+            QString function = query.value(2).toString();
+
+            // Construct message
+            QString message = "Personnel ID: " + QString::number(personnelId) + "\n";
+            message += "Name: " + name + "\n";
+            message += "Function: " + function;
+
+            // Show message box with personnel information
+            QMessageBox::information(this, "Personnel Information", message);
+        }
+        else
+        {
+            ui->labelMessage->setText("Failed to fetch personnel information.");
+        }
+    }
+    else
+    {
+        QByteArray data = "0";
+        arduino->write_to_arduino(data);
+
+        ui->accessStatusLabelRED->setStyleSheet("QLabel { background-color: red; }");
+        ui->accessStatusLabel2VERT->setStyleSheet("");
+
+        ui->labelMessage->setText(""); // Clear the message if card does not exist
+    }
+}
+
+
+bool MainWindow::checkIfCardExists(const QString& cardID)
+{
+    QSqlQuery query;
+    query.prepare("SELECT COUNT(*) FROM PERSONNEL WHERE CARD_ID = :cardID");
+    query.bindValue(":cardID", cardID);
+    if (query.exec() && query.next())
+    {
+        int count = query.value(0).toInt();
+        return count > 0;
+    } else {
+               qDebug() << "Error checking if card exists in MEMBERS table:" << query.lastError().text();
+               return false;
+           }
+}
+
+
+/*void MainWindow::on_pushButton_2_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(14);
+}*/
+
+void MainWindow::on_refreche_3_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(6);
+}
+
+
+
+void MainWindow::activateBuzzer(int numTimes) {
+    // Turn on the buzzer
+    qDebug() << "Buzzer on" << numTimes << "time(s)";
+
+    // Start the timer with a duration of 1 second (1000 milliseconds) for each activation
+    buzzerTimer->start(numTimes * 200);
+
+    // If you want to activate the buzzer only once, you can stop the timer after the first activation
+    if (numTimes == 1) {
+        connect(buzzerTimer, &QTimer::timeout, [=]() {
+            buzzerTimer->stop();
+        });
+    } else if (numTimes == 2) {
+            // Connect the timeout signal of the timer to a slot that turns off the buzzer after the second activation
+            connect(buzzerTimer, &QTimer::timeout, [=]() {
+                // Turn off the buzzer
+                qDebug() << "Buzzer off";
+                // Stop the timer
+                buzzerTimer->stop();
+            });
+        }
+    }
+
+
+
+void MainWindow::on_addMemberButton_2_clicked()
+{
+    QString searchQuery = ui->searchLineEdit_2->text().trimmed();
+    if (!searchQuery.isEmpty())
+    {
+        QMessageBox::warning(this, "No personnel Selected", "Please search and find a member to add a card to.");
+    } else {
+        ui->labelMessage_2->setText("No personnel Selected "" Please search and find a member to add a card to..");
+           }
+}
+
+void MainWindow::on_pushButton_9_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(15);
+
+}

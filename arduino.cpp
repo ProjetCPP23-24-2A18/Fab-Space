@@ -1,12 +1,17 @@
 
 #include "arduino.h"
 
+const quint16 Arduino::arduino_uno_vendor_id = 9025;
+const quint16 Arduino::arduino_uno_producy_id = 67;
+
 Arduino::Arduino()
 {
     data="";
     arduino_port_name="";
     arduino_is_available=false;
     serial=new QSerialPort;
+    connect(serial, &QSerialPort::readyRead, this, &Arduino::onReadyRead);
+
 }
 
 QString Arduino::getarduino_port_name()
@@ -81,4 +86,43 @@ int Arduino::write_to_arduino( QByteArray d)
     }
 
 
+}
+
+void Arduino::initPort(const QString &portName)
+{
+    serial->setPortName(portName);
+    serial->setBaudRate(QSerialPort::Baud9600);
+    serial->setDataBits(QSerialPort::Data8);
+    serial->setParity(QSerialPort::NoParity);
+    serial->setStopBits(QSerialPort::OneStop);
+    serial->setFlowControl(QSerialPort::NoFlowControl);
+    if (!serial->open(QIODevice::ReadWrite))
+    {
+        qWarning() << "Could not open serial port:" << portName;
+    }
+}
+
+void Arduino::onReadyRead()
+{
+    static QString buffer;
+    buffer += serial->readAll();
+    if (buffer.contains("\r\n"))
+    {
+        auto messages = buffer.split("\r\n");
+        for (int i = 0; i < messages.count() - 1; ++i)
+        {
+            processTheCardData(messages[i].toLatin1());
+        }
+        buffer = messages.last();
+    }
+}
+
+
+void Arduino::processTheCardData(const QByteArray &data)
+{
+    QString cardID = QString::fromLatin1(data).trimmed();
+    if (!cardID.isEmpty())
+    {
+        emit cardScanned(cardID);
+    }
 }
