@@ -5,6 +5,7 @@
     #include <QStackedWidget>
     #include <QPushButton>
     #include "client.h"
+#include "currentuser.h"
 #include <QSqlTableModel>
 #include <QComboBox>
 #include <QWidgetList>
@@ -25,6 +26,7 @@
 #include "sms.h"
 #include "regle.h"
 #include "arduino.h"
+#include <QMessageBox>
 
 
     QT_BEGIN_NAMESPACE
@@ -141,6 +143,9 @@ void on_modifier_Button_clicked_eq();
 void on_pushButton_clicked_eq();
 void on_pushButton_20_clicked_eq();
 void on_rechercherButton_clicked_eq();
+QString fetchUserRoleFromDatabase(const QString& username);
+        void on_employeeManagementButton_clicked();
+
 // Fonction pour exporter la liste d'équipements vers un fichier PDF
 void exportToPDF_eq(const QString& filePath, QSqlQueryModel* model);
 
@@ -233,6 +238,7 @@ void on_pushButton_9_clicked();
         // eq
         Equipement EQtemp;
         QString critereTri;
+        CurrentUser m_currentUser;
         //espace
         espace E1;
         QByteArray data;
@@ -249,6 +255,7 @@ void on_pushButton_9_clicked();
         Arduino *arduino;
         bool checkIfCardExists(const QString& cardID);
         QTimer *buzzerTimer;
+
 
 
 

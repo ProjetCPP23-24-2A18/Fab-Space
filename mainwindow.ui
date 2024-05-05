@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>15</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="pageLogin">
      <widget class="QLabel" name="label_14">
@@ -10778,7 +10778,7 @@ text-decoration: underline;</string>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>14</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="pageLogin_2">
        <widget class="QLabel" name="label_67">

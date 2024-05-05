@@ -31,6 +31,7 @@ DEFINES += QT_DEPRECATED_WARNINGS \
     ImageDelegate.h \
     arduino.h \
     arduinotemp.h \
+    currentuser.h \
     equipement.h \
     espace.h \
     passwordresetdialog.h \

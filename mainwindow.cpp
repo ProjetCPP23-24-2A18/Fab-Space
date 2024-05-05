@@ -123,6 +123,7 @@ using namespace qrcodegen;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , m_currentUser("username", "role")
 {
     ui->setupUi(this);
     //menu conneection
@@ -219,6 +220,7 @@ connect(ui->generateQRButton_2, &QPushButton::clicked, this, &MainWindow::on_gen
  connect(ui->oublie, &QPushButton::clicked, this, &MainWindow::on_forgotPasswordButton_clicked_eq);
  //connect(ui->stat, &QPushButton::clicked, this, &MainWindow::on_StatsButton_clicked);
  connect(ui->stateq, &QPushButton::clicked, this, &MainWindow::on_stat_cl_clicked_eq);
+ connect(ui->gestio_emp, &QPushButton::clicked, this, &MainWindow::on_employeeManagementButton_clicked);
 
 
 
@@ -2791,4 +2793,41 @@ void MainWindow::on_pushButton_9_clicked()
 {
     ui->stackedWidget->setCurrentIndex(15);
 
+}
+
+QString MainWindow::fetchUserRoleFromDatabase(const QString& username) {
+    // Remplacer cette logique par la récupération du rôle de l'utilisateur depuis la base de données
+    // Vous pouvez utiliser une requête SQL pour cela
+    // Par exemple :
+    // QSqlQuery query;
+    // query.prepare("SELECT role FROM users WHERE username = :username AND password = :password");
+    // query.bindValue(":username", username);
+    // query.bindValue(":password", password);
+    // if (query.exec() && query.next()) {
+    //     return query.value(0).toString();
+    // } else {
+    //     return ""; // Rôle non trouvé
+    // }
+    // Ici, je simule le rôle de l'utilisateur en fonction du nom d'utilisateur
+    if (username == "ADMIN") {
+        return "Admin";
+    } else {
+        return "Employe";
+    }
+}
+void MainWindow::on_employeeManagementButton_clicked() {
+    // Récupérer le nom d'utilisateur et le mot de passe de l'utilisateur
+    QString username = ui->Username->text();
+
+    // Récupérer le rôle de l'utilisateur à partir de la base de données
+    QString userRole = fetchUserRoleFromDatabase(username);
+
+    // Vérifier le rôle de l'utilisateur
+    if (userRole == "Employe") {
+        // Afficher un message d'interdiction
+        QMessageBox::warning(this, "Accès refusé", "Vous n'avez pas les autorisations nécessaires pour accéder à cette fonctionnalité.");
+    } else {
+        // Autoriser l'accès à la gestion des employés pour les autres rôles
+        // Insérez ici le code pour afficher la fenêtre de gestion des employés
+    }
 }
