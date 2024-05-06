@@ -2831,3 +2831,51 @@ void MainWindow::on_employeeManagementButton_clicked() {
         // Insérez ici le code pour afficher la fenêtre de gestion des employés
     }
 }
+//arduinohazem
+/*
+void mainwindow_espace::on_search_clicked() {
+    // Get the reference from the UI
+    QString reference = ui->rech_2->text();
+
+    // Check if the reference is empty
+    if (reference.isEmpty()) {
+        QMessageBox::warning(this, "Error", "Please enter a reference.");
+        return;
+    }
+
+    // Query the database to get the state of the reference
+    QSqlQuery query;
+    query.prepare("SELECT ETAT FROM ESPACE WHERE REFERENCE = :reference");
+    query.bindValue(":reference", reference);
+
+    // Execute the query
+    if (query.exec()) {
+        if (query.next()) {
+            QString etat = query.value("ETAT").toString();
+
+            // Display the state directly on the LCD
+            arduinoLCD->displayEtat(etat);
+        } else {
+            QMessageBox::warning(this, "Error", "No data found for the reference in the database.");
+        }
+    } else {
+        // Error handling: Display the error message
+        QMessageBox::warning(this, "Error", "Failed to execute the query: " + query.lastError().text());
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
